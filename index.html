@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRA | Health Prediction Dashboard</title>
+    <meta name="description" content="MIRA - AI-powered patient health prediction dashboard for clinical diagnostics and risk assessment.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- fixed sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 48 48" fill="none">
+                    <rect width="48" height="48" rx="14" fill="url(#brandGrad)"/>
+                    <path d="M14 24h20M24 14v20" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="24" cy="24" r="8" stroke="#fff" stroke-width="2" fill="none" opacity="0.5"/>
+                    <defs>
+                        <linearGradient id="brandGrad" x1="0" y1="0" x2="48" y2="48">
+                            <stop stop-color="#06b6d4"/>
+                            <stop offset="1" stop-color="#8b5cf6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="brand-info">
+                <span class="brand-name">MIRA</span>
+                <span class="brand-desc">Health AI</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" id="nav-dashboard">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-patients">
+                <i class="fa-solid fa-hospital-user"></i>
+                <span>Patient Records</span>
+            </a>
+            <a href="#" class="nav-item" onclick="document.getElementById('btn-new-patient').click(); return false;">
+                <i class="fa-solid fa-file-medical"></i>
+                <span>New Diagnosis</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-status">
+                <span class="status-dot"></span>
+                <span>System Online</span>
+            </div>
+            <p class="sidebar-version">MIRA v2.0</p>
+        </div>
+    </aside>
+
+    <!-- main content area -->
+    <div class="main-wrapper">
+
+        <!-- top bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="page-heading">
+                    <h1 class="page-title">Health Prediction Dashboard</h1>
+                    <p class="page-subtitle">Real-time patient diagnostics powered by ML-based risk analysis</p>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <button id="btn-new-patient" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>New Patient Record</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- scrollable content -->
+        <main class="content-area">
+
+            <!-- stat cards -->
+            <section class="stats-row">
+                <div class="stat-card stat-blue">
+                    <div class="stat-icon-ring">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="stat-body">
+                        <span class="stat-label">Total Patients</span>
+                        <span id="stat-total-patients" class="stat-number">0</span>
+                    </div>
+                    <div class="stat-decoration"></div>
+                </div>
+
+                <div class="stat-card stat-red">
+                    <div class="stat-icon-ring">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="stat-body">
+                        <span class="stat-label">High Risk Alerts</span>
+                        <span id="stat-high-risk" class="stat-number">0</span>
+                    </div>
+                    <div class="stat-decoration"></div>
+                </div>
+
+                <div class="stat-card stat-teal">
+                    <div class="stat-icon-ring">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <div class="stat-body">
+                        <span class="stat-label">Avg. Glucose</span>
+                        <span id="stat-avg-glucose" class="stat-number">0 <small>mg/dL</small></span>
+                    </div>
+                    <div class="stat-decoration"></div>
+                </div>
+
+                <div class="stat-card stat-purple">
+                    <div class="stat-icon-ring">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <div class="stat-body">
+                        <span class="stat-label">Avg. Cholesterol</span>
+                        <span id="stat-avg-cholesterol" class="stat-number">0 <small>mg/dL</small></span>
+                    </div>
+                    <div class="stat-decoration"></div>
+                </div>
+            </section>
+
+            <!-- patient table -->
+            <section class="table-section" id="registry-section">
+                <div class="table-header">
+                    <div class="table-title-group">
+                        <h2 class="table-title"><i class="fa-solid fa-clipboard-list"></i> Patient Registry</h2>
+                        <span class="table-badge" id="table-count-badge">0 records</span>
+                    </div>
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="search-input" placeholder="Search patients by name, email, or risk...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Date of Birth</th>
+                                <th>Glucose</th>
+                                <th>Haemoglobin</th>
+                                <th>Cholesterol</th>
+                                <th>AI Prediction & Remarks</th>
+                                <th class="th-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patient-table-body">
+                            <tr class="table-placeholder">
+                                <td colspan="7">
+                                    <div class="loading-state">
+                                        <div class="pulse-loader"></div>
+                                        <p>Loading patient records...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- footer -->
+            <footer class="content-footer">
+                <p>&copy; 2026 MIRA Health Prediction Platform &mdash; AI/ML Powered Clinical Decision Support System</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- patient add/edit modal -->
+    <div id="modal-patient" class="modal-overlay">
+        <div class="modal-dialog">
+            <div class="modal-top">
+                <h3 id="modal-title" class="modal-heading">
+                    <i class="fa-solid fa-user-plus"></i> Add Patient Record
+                </h3>
+                <button class="btn-close" id="btn-close-modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="patient-form" class="modal-form" novalidate>
+                <input type="hidden" id="patient-id">
+
+                <div class="form-block">
+                    <h4 class="form-block-title"><i class="fa-solid fa-id-badge"></i> Patient Information</h4>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="form-name">Full Name <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="fa-solid fa-user"></i>
+                                <input type="text" id="form-name" placeholder="e.g. John Doe" required>
+                            </div>
+                            <span class="field-error" id="err-name"></span>
+                        </div>
+                        <div class="field">
+                            <label for="form-dob">Date of Birth <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <input type="date" id="form-dob" required>
+                            </div>
+                            <span class="field-error" id="err-dob"></span>
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="form-email">Email Address <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="fa-solid fa-envelope"></i>
+                                <input type="email" id="form-email" placeholder="e.g. john@hospital.org" required>
+                            </div>
+                            <span class="field-error" id="err-email"></span>
+                        </div>
+                        <div class="field">
+                            <label for="form-gender">Gender <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="fa-solid fa-venus-mars"></i>
+                                <select id="form-gender" required>
+                                    <option value="" disabled selected>Select Gender</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <span class="field-error" id="err-gender"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-block">
+                    <h4 class="form-block-title"><i class="fa-solid fa-flask-vial"></i> Blood Test Metrics</h4>
+                    <div class="field-row thirds">
+                        <div class="field">
+                            <label for="form-glucose">Glucose <small>(mg/dL)</small> <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="fa-solid fa-droplet icon-amber"></i>
+                                <input type="number" id="form-glucose" step="0.1" min="1" placeholder="95.0" required>
+                            </div>
+                            <span class="field-error" id="err-glucose"></span>
+                        </div>
+                        <div class="field">
+                            <label for="form-haemoglobin">Haemoglobin <small>(g/dL)</small> <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="fa-solid fa-vial icon-rose"></i>
+                                <input type="number" id="form-haemoglobin" step="0.1" min="1" placeholder="14.2" required>
+                            </div>
+                            <span class="field-error" id="err-haemoglobin"></span>
+                        </div>
+                        <div class="field">
+                            <label for="form-cholesterol">Cholesterol <small>(mg/dL)</small> <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="fa-solid fa-heart-pulse icon-violet"></i>
+                                <input type="number" id="form-cholesterol" step="0.1" min="1" placeholder="185.0" required>
+                            </div>
+                            <span class="field-error" id="err-cholesterol"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-ghost" id="btn-cancel-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-lg" id="btn-submit-form">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span class="btn-text">Generate Diagnostics</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- delete confirmation modal -->
+    <div id="modal-delete" class="modal-overlay">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-top">
+                <h3 class="modal-heading danger-heading">
+                    <i class="fa-solid fa-circle-exclamation"></i> Confirm Deletion
+                </h3>
+                <button class="btn-close" id="btn-close-delete" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body-text">
+                <p>You are about to permanently delete the record for <strong id="delete-patient-name">Patient</strong>.</p>
+                <p class="muted">This action is irreversible. All clinical data will be erased.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" id="btn-cancel-delete">Cancel</button>
+                <button class="btn btn-danger" id="btn-confirm-delete">
+                    <i class="fa-solid fa-trash"></i> Delete Record
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- toast container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
