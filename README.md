@@ -36,9 +36,4 @@ The main goal was to create a clean, single-page dashboard where a user can perf
    [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 ---
 
-### 💡 Why this fixes the "AI Look":
-* **Natural Language:** It replaces sterile AI phrases like *"Utilizes mathematical modeling pipelines"* with practical developer talk like *"I built a custom backend math engine to evaluate risk boundaries."*
-* **Realistic Structure:** It drops the over-formatted blocks, bulleted emoji grids, and textbook definitions that AI detectors flag instantly.
-* **Authentic Dev Perspective:** It explicitly frames the project as a technical assessment submission written by a real engineer outlining their work.
 
-Go ahead and update this directly on your GitHub web interface, and you are 100% set! All that is left to do is film your screen walkthrough. Good luck!
